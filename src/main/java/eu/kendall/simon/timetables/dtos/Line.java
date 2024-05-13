@@ -1,4 +1,4 @@
-package eu.kendall.simon.timetables;
+package eu.kendall.simon.timetables.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,8 +1,6 @@
-package eu.kendall.simon.timetables;
+package eu.kendall.simon.timetables.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 
