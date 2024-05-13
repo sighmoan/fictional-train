@@ -16,7 +16,7 @@ class DepartureSignTests {
 
     @BeforeAll
     static void setup() {
-        depSign = DepartureSign.getDepartures();
+        depSign = DepartureSign.getDepartures("9192");
     }
 
     @Test

@@ -4,10 +4,7 @@ package eu.kendall.simon.timetables;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
@@ -24,28 +21,25 @@ import java.util.List;
 public class DepartureSign {
     @JsonProperty("departures")
     Departure[] deps;
+    static final String slussenStopId = "9192";
 
     private static String apiURL = "https://transport.integration.sl.se/v1/sites/";
 
-    public static DepartureSign getDepartures() {
+    public static DepartureSign getDepartures( String id) {
         WebClient client = WebClient.create(apiURL);
 
         DepartureSign depSign = client.get()
-                .uri("9192/departures")
+                .uri(Integer.valueOf(id) + "/departures")
                 .retrieve()
                 .bodyToMono(DepartureSign.class)
                 .block();
-
-        /*for(int i = 0; i < depSign.deps.length; i++) {
-            System.out.printf("Line %d expected at %s", depSign.deps[i].lineNumber(), depSign.deps[i].expected());
-        }*/
 
         return depSign;
     }
 
     @GetMapping
-    public @ResponseBody static String stopController() {
-        return getDepartures().toHTML();
+    public @ResponseBody static String stopController(@RequestParam(defaultValue = slussenStopId) String stop) {
+        return getDepartures(stop).toHTML();
     }
 
     public String toHTML() {
