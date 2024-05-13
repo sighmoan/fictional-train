@@ -27,9 +27,9 @@ public class DepartureSign {
                 .bodyToMono(DepartureSign.class)
                 .block();
 
-        for(int i = 0; i < depSign.deps.length; i++) {
+        /*for(int i = 0; i < depSign.deps.length; i++) {
             System.out.printf("Line %d expected at %s", depSign.deps[i].lineNumber(), depSign.deps[i].expected());
-        }
+        }*/
 
         return depSign;
     }

@@ -29,6 +29,6 @@ class DepartureSignTests {
 
     @Test
     void departureSignDeparturesHaveLineData() {
-        assertTrue(depSign.deps[10].lineNumber() != 0);
+        assertTrue(depSign.deps[10].lineData().lineNumber() != 0);
     }
 }
