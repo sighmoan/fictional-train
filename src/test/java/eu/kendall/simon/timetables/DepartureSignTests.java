@@ -31,4 +31,9 @@ class DepartureSignTests {
     void departureSignDeparturesHaveLineData() {
         assertTrue(depSign.deps[10].lineData().lineNumber() != 0);
     }
+
+    @Test
+    void departureSignOutputsFormattedOutput() {
+        assertTrue(depSign.toHTML().contains("<body>"));
+    }
 }

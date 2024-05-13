@@ -33,4 +33,8 @@ public class DepartureSign {
 
         return depSign;
     }
+
+    public String toHTML() {
+        return "";
+    }
 }
