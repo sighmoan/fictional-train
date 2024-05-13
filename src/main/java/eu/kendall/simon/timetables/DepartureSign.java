@@ -27,8 +27,7 @@ public class DepartureSign {
 
     private static String apiURL = "https://transport.integration.sl.se/v1/sites/";
 
-    @GetMapping
-    public @ResponseBody static String getDepartures() {
+    public static DepartureSign getDepartures() {
         WebClient client = WebClient.create(apiURL);
 
         DepartureSign depSign = client.get()
@@ -41,7 +40,12 @@ public class DepartureSign {
             System.out.printf("Line %d expected at %s", depSign.deps[i].lineNumber(), depSign.deps[i].expected());
         }*/
 
-        return depSign.toHTML();
+        return depSign;
+    }
+
+    @GetMapping
+    public @ResponseBody static String stopController() {
+        return getDepartures().toHTML();
     }
 
     public String toHTML() {
@@ -61,7 +65,8 @@ public class DepartureSign {
                     rows.append(row);
                 }
                 String output = StringUtils.join(templatePage, ' ');
-                return output.replace("{time}", LocalTime.now().toString()).replace("{rows}", rows.toString());
+                String time = Integer.toString(LocalTime.now().getHour()) + ':' + Integer.toString(LocalTime.now().getMinute());
+                return output.replace("{time}", time).replace("{rows}", rows.toString());
             }
         } catch(URISyntaxException e) {
             System.out.println("URI Syntax exception raised when loading template.");
