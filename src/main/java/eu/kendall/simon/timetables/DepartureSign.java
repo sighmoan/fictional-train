@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLOutput;
+import java.time.LocalTime;
 import java.util.List;
 
 @Controller
@@ -55,12 +56,12 @@ public class DepartureSign {
                     String row = String.format("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
                             deps[i].lineData().modality(),
                             deps[i].lineData().lineNumber(),
-                            deps[i].scheduled(),
+                            deps[i].scheduled().toLocalTime(),
                             deps[i].display());
                     rows.append(row);
                 }
                 String output = StringUtils.join(templatePage, ' ');
-                return output.replace("{rows}", rows.toString());
+                return output.replace("{time}", LocalTime.now().toString()).replace("{rows}", rows.toString());
             }
         } catch(URISyntaxException e) {
             System.out.println("URI Syntax exception raised when loading template.");
