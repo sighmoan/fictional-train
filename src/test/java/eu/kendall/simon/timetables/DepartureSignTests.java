@@ -26,4 +26,9 @@ class DepartureSignTests {
     void departureSignDeparturesAreInTheFuture() {
         assertTrue(depSign.deps[10].expected().isAfter(LocalDateTime.now()));
     }
+
+    @Test
+    void departureSignDeparturesHaveLineData() {
+        assertTrue(depSign.deps[10].lineNumber() != 0);
+    }
 }
