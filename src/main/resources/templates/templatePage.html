@@ -2,10 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Departures from Slussen</title>
+    <title>Departures board</title>
+    <style>
+        body {
+            background-color: #D9CCC1;
+            color: #024059;
+            font-size: 44px;
+            font-family: "Liberation Mono", monospace;
+        }
+        table {
+            width:100%;
+        }
+        th {
+            background-color: #024059;
+            color: #D9CCC1;
+            text-align: left;
+        }
+        .time {
+            text-align:center;
+        }
+    </style>
 </head>
 <body>
-<p>The current time is {time}.</p>
+<p class="time">{time}</p>
 <table>
     <tr>
     <th>Departure type</th>
