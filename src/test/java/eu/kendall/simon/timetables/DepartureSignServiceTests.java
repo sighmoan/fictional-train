@@ -8,8 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class DepartureSignTests {
@@ -38,5 +37,10 @@ class DepartureSignTests {
     @Test
     void departureSignOutputsFormattedOutput() {
         assertTrue(serv.toHTML().contains("<body>"));
+    }
+
+    @Test
+    void departureSignOutputsWithoutRemnantTags() {
+        assertFalse(serv.toHTML().contains("[{}]"));
     }
 }

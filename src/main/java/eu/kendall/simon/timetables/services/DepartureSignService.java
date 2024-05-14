@@ -1,5 +1,6 @@
 package eu.kendall.simon.timetables.services;
 
+import eu.kendall.simon.timetables.dtos.Departure;
 import eu.kendall.simon.timetables.models.DepartureSignModel;
 import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -38,23 +39,21 @@ public class DepartureSignService {
 
     public String toHTML() {
         try {
-            Path templateFilePath = Paths.get(getClass().getResource("/templates/templatePage.html").toURI());
-            System.out.println(getClass());
+            Path rowTemplatePath = Paths.get(getClass().getResource("/templates/templateRow.html").toURI());
+            StringBuilder rows = new StringBuilder();
+            if (Files.exists(rowTemplatePath))
+                for (Departure dep : depSign.getDeps())
+                    rows.append(Files.readString(rowTemplatePath)
+                            .replace("{modality}", dep.lineData().modality())
+                            .replace("{lineNumber}", Integer.toString(dep.lineData().lineNumber()))
+                            .replace("{scheduled}", dep.scheduled().toLocalTime().toString())
+                            .replace("{display}", dep.display()));
 
+            Path templateFilePath = Paths.get(getClass().getResource("/templates/templatePage.html").toURI());
             if(Files.exists(templateFilePath)) {
-                List<String> templatePage = Files.readAllLines(templateFilePath);
-                StringBuilder rows = new StringBuilder();
-                for(int i = 0; i < depSign.getDeps().length; i++) {
-                    String row = String.format("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
-                            depSign.getDep(i).lineData().modality(),
-                            depSign.getDep(i).lineData().lineNumber(),
-                            depSign.getDep(i).scheduled().toLocalTime(),
-                            depSign.getDep(i).display());
-                    rows.append(row);
-                }
-                String output = StringUtils.join(templatePage, ' ');
+                String templatePage = Files.readString(templateFilePath);
                 String time = Integer.toString(LocalTime.now().getHour()) + ':' + Integer.toString(LocalTime.now().getMinute());
-                return output.replace("{time}", time).replace("{rows}", rows.toString());
+                return templatePage.replace("{time}", time).replace("{rows}", rows.toString());
             }
         } catch(URISyntaxException e) {
             System.out.println("URI Syntax exception raised when loading template.");
